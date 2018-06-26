@@ -1,6 +1,6 @@
 /**
  * Author and copyright: Stefan Haack (https://shaack.com)
- * Repository: https://github.com/shaack/svja-i18n
+ * Repository: https://github.com/shaack/svjs-i18n
  * License: MIT, see file 'LICENSE'
  */
 
