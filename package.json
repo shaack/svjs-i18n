@@ -4,10 +4,11 @@
   "description": "Simple internationalisation and translation as es6 module",
   "main": "src/svjs-i18n/I18n.js",
   "directories": {
+    "src": "source",
     "test": "test"
   },
   "scripts": {
-    "test": "mocha ./test/svjs-i18n.js"
+    "test": "tput setaf 4;echo 'Run test/index.html in your browser for unit testing.'; echo ''; exit 0"
   },
   "repository": {
     "type": "git",

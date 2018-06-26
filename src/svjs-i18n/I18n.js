@@ -25,14 +25,31 @@ export class I18n {
         this.translations = {}
     }
 
-    load(dictionary) {
+    load(dictionary, callback) {
         for (const lang in dictionary) {
             if (dictionary.hasOwnProperty(lang)) {
                 if (!this.translations[lang]) {
                     this.translations[lang] = {}
                 }
                 const translations = dictionary[lang]
-                Object.assign(this.translations[lang], translations)
+                if (typeof translations === "string") {
+                    fetch(translations)
+                        .then(res => res.json())
+                        .then(json => {
+                            Object.assign(this.translations[lang], json)
+                            if(callback) {
+                                callback()
+                            }
+                        })
+                        .catch(err => {
+                            throw err
+                        })
+                } else {
+                    Object.assign(this.translations[lang], translations)
+                    if (callback) {
+                        callback()
+                    }
+                }
             }
         }
     }

@@ -76,6 +76,12 @@ export class TestI18n extends Test {
     }
 
     testLoadJsonFile() {
-
+        const i18n = new I18n({locale: "de"})
+        i18n.load({
+            de: "translations-de.json"
+        }, () => {
+            Test.assertEquals("Haus", i18n.t("house"))
+            Test.assertEquals("Hallo", i18n.t("hello"))
+        })
     }
 }
