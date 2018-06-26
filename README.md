@@ -3,3 +3,41 @@
 A simple ES6 module to support internationalisation
 of JavaScript UIs. 
 
+## Usage example
+```javascript
+const i18n = new I18n({locale: "de"})
+i18n.load({
+    de: {
+        "myname": "Mein Name ist $2, $1 $2"
+    },
+    en: {
+        "myname": "My name is $2, $1 $2"
+    }
+})
+const translation = i18n.t("myname", "James", "Bond")
+Test.assertEquals("Mein Name ist Bond, James Bond", translation)
+```
+You can set the locale via configuration
+```javascript
+const i18n = new I18n({locale: "de"})
+```
+In case the locale option is not given, the language attribute 
+given for the html tag will be used:
+```html
+<html lang="de">
+```
+If that `lang` attribute is also missing, 
+it will try to use the locale specified by the browser.
+
+## Load language file
+You can load the dictionary from extername json files:
+```javascript
+const i18n = new I18n({locale: "de"})
+i18n.load({
+    de: "translations-de.json"
+}, () => {
+    // callback after load
+    Test.assertEquals("Haus", i18n.t("house"))
+    Test.assertEquals("Hallo", i18n.t("hello"))
+})
+```
