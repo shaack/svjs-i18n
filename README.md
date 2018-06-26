@@ -30,14 +30,42 @@ If that `lang` attribute is also missing,
 it will try to use the locale specified by the browser.
 
 ## Load language file
-You can load the dictionary from extername json files:
+You can load the dictionary from external json files:
 ```javascript
-const i18n = new I18n({locale: "de"})
+const i18n = new I18n()
 i18n.load({
-    de: "translations-de.json"
+    de: "translations-de.json",
+    en: "translations-en.json"
 }, () => {
     // callback after load
     Test.assertEquals("Haus", i18n.t("house"))
     Test.assertEquals("Hallo", i18n.t("hello"))
+})
+```
+
+## Add multiple dictionaries
+You can add multiple dictionaries. All dictionaries are added. 
+Same keys will be overwritten. 
+```javascript
+i18n.load({
+    de: "translations-de.json"
+}, () => {
+    // callback after json file loaded
+    i18n.load({
+        de: {
+            "house": "Haus"
+        }
+    })
+    i18n.load({
+        en: {
+            "house": "House"
+        }
+    })
+    i18n.load({
+        en: {
+            "house": "My House"
+        }
+    })
+    Test.assertEquals("My House", i18n.t("house"))
 })
 ```
