@@ -44,7 +44,7 @@ export class I18n {
                             .catch(err => {
                                 throw err
                             })
-                    })) // https://stackoverflow.com/questions/31710768/how-can-i-fetch-an-array-of-urls-with-promise-all
+                    }))
                 } else {
                     Object.assign(this.translations[lang], translations)
                 }
