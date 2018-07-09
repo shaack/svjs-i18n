@@ -37,6 +37,8 @@ export class TestI18n extends Test {
         })
         const translation = i18n.t("hello")
         Test.assertEquals("Hello", translation)
+        i18n.locale = "de"
+        Test.assertEquals("Hallo", i18n.t("hello"))
     }
 
     testWrongCode() {
@@ -59,9 +61,10 @@ export class TestI18n extends Test {
             de: {
                 "hello": "Hallo $1"
             }
+        }).then(() => {
+            const translation = i18n.t("hello", "Bob")
+            Test.assertEquals("Hallo Bob", translation)
         })
-        const translation = i18n.t("hello", "Bob")
-        Test.assertEquals("Hallo Bob", translation)
     }
 
     testComplexReplacement() {
@@ -79,9 +82,24 @@ export class TestI18n extends Test {
         const i18n = new I18n({locale: "de"})
         i18n.load({
             de: "translations-de.json"
-        }, () => {
+        }).then(() => {
+            // uses promises for file loading
             Test.assertEquals("Haus", i18n.t("house"))
             Test.assertEquals("Hallo", i18n.t("hello"))
         })
     }
+    testLoadMultipleJsonFiles() {
+        const i18n = new I18n({locale: "de"})
+        i18n.load({
+            de: "translations-de.json",
+            en: "translations-en.json"
+        }).then(() => {
+            Test.assertEquals("Haus", i18n.t("house"))
+            Test.assertEquals("Hallo", i18n.t("hello"))
+            i18n.locale = "en"
+            Test.assertEquals("House", i18n.t("house"))
+            Test.assertEquals("Hello", i18n.t("hello"))
+        })
+    }
+
 }

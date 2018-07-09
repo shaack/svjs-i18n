@@ -25,7 +25,8 @@ export class I18n {
         this.translations = {}
     }
 
-    load(dictionary, callback) {
+    load(dictionary) {
+        let fetchPromises = []
         for (const lang in dictionary) {
             if (dictionary.hasOwnProperty(lang)) {
                 if (!this.translations[lang]) {
@@ -33,24 +34,26 @@ export class I18n {
                 }
                 const translations = dictionary[lang]
                 if (typeof translations === "string") {
-                    fetch(translations)
-                        .then(res => res.json())
-                        .then(json => {
-                            Object.assign(this.translations[lang], json)
-                            if(callback) {
-                                callback()
-                            }
-                        })
-                        .catch(err => {
-                            throw err
-                        })
+                    fetchPromises.push(new Promise((resolve) => {
+                        fetch(translations)
+                            .then(res => res.json())
+                            .then(json => {
+                                Object.assign(this.translations[lang], json)
+                                resolve()
+                            })
+                            .catch(err => {
+                                throw err
+                            })
+                    })) // https://stackoverflow.com/questions/31710768/how-can-i-fetch-an-array-of-urls-with-promise-all
                 } else {
                     Object.assign(this.translations[lang], translations)
-                    if (callback) {
-                        callback()
-                    }
                 }
             }
+        }
+        if(fetchPromises.length > 0) {
+            return Promise.all(fetchPromises)
+        } else {
+            return Promise.resolve()
         }
     }
 
@@ -61,7 +64,7 @@ export class I18n {
         } else if (this.translations[this.lang] && this.translations[this.lang][code]) {
             translation = this.translations[this.lang][code]
         } else {
-            console.error("Error, no translation found for locale:", this.locale,
+            console.warn("Error, no translation found for locale:", this.locale,
                 ", lang: ", this.lang, ", code: ", code)
             return "?" + code + "?"
         }

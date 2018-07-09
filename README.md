@@ -15,7 +15,7 @@ i18n.load({
     }
 })
 const translation = i18n.t("myname", "James", "Bond")
-Test.assertEquals("Mein Name ist Bond, James Bond", translation)
+Test.assertEquals("Mein Name ist Bond, James Bond", translation)    
 ```
 You can set the locale via configuration
 ```javascript
@@ -32,14 +32,16 @@ it will try to use the locale specified by the browser.
 ## Load language file
 You can load the dictionary from external json files:
 ```javascript
-const i18n = new I18n()
+const i18n = new I18n("de")
 i18n.load({
     de: "translations-de.json",
     en: "translations-en.json"
-}, () => {
-    // callback after load
+}).then(() => {
     Test.assertEquals("Haus", i18n.t("house"))
     Test.assertEquals("Hallo", i18n.t("hello"))
+    i18n.locale = "en"
+    Test.assertEquals("House", i18n.t("house"))
+    Test.assertEquals("Hello", i18n.t("hello"))
 })
 ```
 
@@ -49,8 +51,7 @@ Same keys will be overwritten.
 ```javascript
 i18n.load({
     de: "translations-de.json"
-}, () => {
-    // callback after json file loaded
+}.then(() => {
     i18n.load({
         de: {
             "house": "Haus"
@@ -67,5 +68,5 @@ i18n.load({
         }
     })
     Test.assertEquals("My House", i18n.t("house"))
-})
+}))
 ```
