@@ -8,7 +8,8 @@ export class I18n {
 
     constructor(props = {}) {
         this.props = {
-            locale: null
+            locale: null,
+            fallbackLang: "en" // used, when the translation was not found for locale
         }
         Object.assign(this.props, props)
         this.locale = this.props.locale
@@ -63,6 +64,8 @@ export class I18n {
             translation = this.translations[this.locale][code]
         } else if (this.translations[this.lang] && this.translations[this.lang][code]) {
             translation = this.translations[this.lang][code]
+        } else if (this.translations[this.props.fallbackLang][code]) {
+            translation = this.translations[this.props.fallbackLang][code]
         } else {
             console.warn("Error, no translation found for locale:", this.locale,
                 ", lang: ", this.lang, ", code: ", code)

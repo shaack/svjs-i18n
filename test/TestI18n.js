@@ -101,5 +101,15 @@ export class TestI18n extends Test {
             Test.assertEquals("Hello", i18n.t("hello"))
         })
     }
+    testFallbackLang() {
+        const i18n = new I18n({locale: "fr"})
+        i18n.load({
+            de: "translations-de.json",
+            en: "translations-en.json"
+        }).then(() => {
+            Test.assertEquals("House", i18n.t("house"))
+            Test.assertEquals("Hello", i18n.t("hello"))
+        })
+    }
 
 }
