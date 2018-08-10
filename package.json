@@ -1,6 +1,6 @@
 {
   "name": "svjs-i18n",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Simple internationalisation and translation as es6 module",
   "main": "src/svjs-i18n/I18n.js",
   "directories": {
