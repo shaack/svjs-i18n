@@ -1,3 +1,5 @@
+Deprecated, moved to https://github.com/shaack/cm-web-modules
+
 # svjs-i18n
 
 A simple ES6 module to support internationalisation
